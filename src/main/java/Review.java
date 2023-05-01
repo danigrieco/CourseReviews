@@ -1,6 +1,3 @@
-package src;
-
-
 public class Review {
     private int ID;
     private String StudentID;
