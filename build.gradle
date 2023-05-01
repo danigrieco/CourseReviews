@@ -2,19 +2,21 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
-
 repositories {
     mavenCentral()
 }
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-    }
-}
+
 dependencies {
-    compile 'junit:junit:4.12'
+    implementation group: 'org.json', name: 'json', version: '20220924'
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.36.0.3'
+    implementation 'junit:junit:4.13.1'
+    implementation 'org.testng:testng:7.1.0'
+
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.8.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+}
+
+test {
+    useJUnitPlatform()
 }
