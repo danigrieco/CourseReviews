@@ -7,21 +7,55 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 public class DataBaseCreation {
+    String STUDENTS;
     Connection connection;
-    public static void initializeDatabase() {
+    public void initializeDatabase() {
+        String databaseName = "Reviews.sqlite3";
+        String databaseUrl = "jdbc:sqlite:" + databaseName;
         try {
             // Check if database file exists
-            File file = new File("Reviews.sqlite3");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
             // Establish connection to database
-            String url = "jdbc:sqlite:Reviews.sqlite3";
-            Connection conn = DriverManager.getConnection(url);
-
             // Create tables if they don't exist
-            Statement stmt = conn.createStatement();
+            connection = DriverManager.getConnection(databaseUrl);
+            //createTables();
+            connection.close();
+        }  catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void verifyConnect() {
+        try {
+            if(connection.isClosed()||connection==null) {
+                throw new IllegalStateException("Manager not connected!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+    }
+    public void connectDatabase(){
+        try {
+            if(connection.isClosed()||connection==null) {
+                throw new IllegalStateException("Manager is already connected!");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        String databaseName = "Reviews.sqlite3";
+        String url = "jdbc:sqlite:" + databaseName;
+        try{
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(url);
+        }
+        catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void createTables() {
+        try {
+            verifyConnect();
+            Statement stmt = connection.createStatement();
             String reviewsQuery = "CREATE TABLE IF NOT EXISTS REVIEWS " +
                     "(\n" +
                     "                         ID INT(5),\n" +
@@ -38,24 +72,8 @@ public class DataBaseCreation {
             stmt.execute(reviewsQuery);
             stmt.execute(studentsQuery);
             stmt.execute(coursesQuery);
-
             // Close resources
             stmt.close();
-            conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void connect() {
-        try {
-            if(connection != null) {
-                throw new IllegalStateException();
-            }
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:src/main/java/edu/virginia/cs/hw7/Reviews.sqlite3");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException();
         } catch (SQLException e) {
             throw new RuntimeException();
         }
