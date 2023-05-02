@@ -1,3 +1,5 @@
+package edu.virginia.cs;
+
 public class Review {
     private int ID;
     private String StudentID;
@@ -13,18 +15,18 @@ public class Review {
 
     }
     public int getID(){
-        return this.ID;
+        return ID;
     }
     public String getCourseID(){
-        return this.CourseID;
+        return CourseID;
     }
     public String getStudentID(){
-        return this.StudentID;
+        return StudentID;
     }
     public String getReview_message(){
-        return this.review_message;
+        return review_message;
     }
     public int getRating(){
-        return this.rating;
+        return rating;
     }
 }
