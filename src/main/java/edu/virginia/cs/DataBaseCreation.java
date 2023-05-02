@@ -8,12 +8,11 @@ public class DataBaseCreation {
     String STUDENTS;
     static Connection connection;
     public static void main(String[] args){
-        //initializeDatabase();
-        System.out.print("Hello World");
-        connectDatabase();
-        //initializeDatabase();
+        initializeDatabase();
+        Review nReview = new Review(123,"tgh8wp","hello","yessir",4);
+        addReviewtoTable(nReview);
         verifyConnection();
-        System.out.print("Hello World");
+        System.out.print(nReview);
 
     }
     public static void initializeDatabase() {
@@ -25,7 +24,7 @@ public class DataBaseCreation {
             // Create tables if they don't exist
             connection = DriverManager.getConnection(databaseUrl);
             //createTables();
-            connection.close();
+            //connection.close();
         }  catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -106,8 +105,27 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
     }
-    public void addReviewtoTable(Review review ){
+    public static void addReviewtoTable(Review review){
         verifyConnection();
+        try {
+            Statement statement = connection.createStatement();
+            String sql = "INSERT INTO REVIEWS (STUDENTID, COURSEID, REVIEW_MESSAGE, RATING) " +
+                    "SELECT ?, ?, ?, ? " +
+                    "WHERE NOT EXISTS " +
+                    "(SELECT 1 FROM REVIEWS WHERE STUDENTID = ? AND COURSEID = ?);";
+            PreparedStatement statement1 = connection.prepareStatement(sql);
+            statement1.setString(1, review.getStudentID());
+            statement1.setString(2, review.getCourseID());
+            statement1.setString(3, review.getReview_message());
+            statement1.setInt(4, review.getRating());
+            statement1.setString(5, review.getStudentID());
+            statement1.setString(6, review.getCourseID());
+            statement1.executeUpdate();
+
+
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
 
 
     }
