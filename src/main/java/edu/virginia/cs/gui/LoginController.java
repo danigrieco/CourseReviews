@@ -18,7 +18,7 @@ public class LoginController {
     @FXML
     private Label login;
     @FXML
-    private Button exisiting;
+    private Button existing;
     @FXML
     private Button newuser;
 
