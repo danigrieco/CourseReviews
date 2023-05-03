@@ -8,10 +8,16 @@
    <children>
       <Label fx:id="welcome" alignment="TOP_CENTER" prefHeight="17.0" prefWidth="155.0" text="Welcome to Course Review">
          <VBox.margin>
-            <Insets />
+            <Insets bottom="10.0" />
          </VBox.margin></Label>
-      <Label fx:id="login" alignment="CENTER" text="Login:" />
+      <Label fx:id="login" alignment="CENTER" text="Login:">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin></Label>
       <Button fx:id="existing" mnemonicParsing="false" onAction="#SwitchtoExisting" text="Existing User" />
-      <Button fx:id="newuser" mnemonicParsing="false" onAction="#SwitchtoExisting" text="New User" />
+      <Button fx:id="newuser" mnemonicParsing="false" onAction="#SwitchtoNew" text="New User">
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin></Button>
    </children>
 </VBox>

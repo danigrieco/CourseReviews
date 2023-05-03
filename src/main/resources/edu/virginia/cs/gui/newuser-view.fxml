@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.cs.gui.NewUserController">
    <children>
+      <Button mnemonicParsing="false" onAction="#back" text="Back">
+         <VBox.margin>
+            <Insets bottom="50.0" right="275.0" />
+         </VBox.margin>
+      </Button>
+      <Label text="Welcome!">
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin></Label>
       <Label fx:id="username" text="Create username:" />
       <TextField fx:id="user" onAction="#Cursor" text="user" />
        <Label fx:id="password" text="Create password:" />
