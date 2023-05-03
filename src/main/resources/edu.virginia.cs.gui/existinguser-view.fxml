@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.cs.gui.ExistingUserController">
+   <children>
+      <Label text="Label" />
+      <Label fx:id="Username" text="Username:" />
+      <TextField fx:id="user" onAction="#Cursor" text="user" />
+      <Label fx:id="Password" text="Password: " />
+      <TextField fx:id="pass" onAction="#Cursor" text="pass" />
+   </children>
+</VBox>
