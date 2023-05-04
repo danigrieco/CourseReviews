@@ -12,8 +12,8 @@ public class DataBaseCreation {
         clearTables();
         createTables();
         System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
-        Student wyatt = new Student("wyatt", "123");
-        addStudentToTable(wyatt);
+        Student dani = new Student("dani", "password");
+        addStudentToTable(dani);
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
 
