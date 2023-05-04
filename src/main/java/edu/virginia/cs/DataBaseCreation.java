@@ -299,7 +299,7 @@ public class DataBaseCreation {
             if (rs.next()) {
                 double averageScore = rs.getDouble("AVERAGE_SCORE");
                 if (averageScore == 0.0){return ("No reviews yet!");}
-                return(Double.toString(averageScore));
+                return(Double.toString(averageScore) + "/5");
             } else {
                 return ("No reviews yet!");
             }

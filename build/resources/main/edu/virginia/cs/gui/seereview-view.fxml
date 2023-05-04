@@ -22,7 +22,7 @@
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin></Label>
-            <Label fx:id="score" text="2.5">
+            <Label fx:id="score" text="0.0">
                <HBox.margin>
                   <Insets left="20.0" top="10.0" />
                </HBox.margin></Label>

@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -36,6 +37,7 @@ public class SeeReviewController {
     public void courseSearch(ActionEvent e) throws IOException {
         DataBaseCreation manager = new DataBaseCreation();
         manager.initializeDatabase();
+        score.setTextFill(Color.BLACK);
         String[] args = coursename.getText().split(" ");
         String id = DataBaseCreation.courseID(args[1], args[0]);
         System.out.println("id: "+id);
@@ -43,9 +45,10 @@ public class SeeReviewController {
         System.out.println("Cat Num: "+args[1]);
 
         if ((id) != null) {
-            score.setText(DataBaseCreation.getAverageReviewScoreForCourse(id));
+            score.setText(DataBaseCreation.getAverageReviewScoreForCourse(id) + "");
         }
         else{
+            score.setTextFill(Color.RED);
             score.setText("Invalid course.");
         }
 
