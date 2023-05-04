@@ -42,7 +42,12 @@ public class SeeReviewController {
         System.out.println("Dept: "+args[0]);
         System.out.println("Cat Num: "+args[1]);
 
-        score.setText(Double.toString(DataBaseCreation.getScoreForCourse(id)));
+        if ((id) != null) {
+            score.setText(DataBaseCreation.getAverageReviewScoreForCourse(id));
+        }
+        else{
+            score.setText("Invalid course.");
+        }
 
 //        try {
 //            if(DataBaseCreation.courseInDatabase(Integer.parseInt(coursename.getText(3, 6)), coursename.getText(0,1))) {

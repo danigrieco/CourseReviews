@@ -13,11 +13,18 @@ public class DataBaseCreation {
         //connectDatabase();
         clearTables();
         createTables();
-        Course course = new Course("CS", "1100");
+        Course course = new Course("CS", "3100");
         addCourseToTable(course);
-        System.out.println(courseID("CS", "1100"));
-        //Student wyatt = new Student("wyatt", "123");
-        //addStudentToTable(wyatt);
+        System.out.println(courseID("1100", "CS"));
+        /*Student wyatt = new Student("wyatt", "123");
+        Student dani = new Student("dani", "456");
+        System.out.println(wyatt.getID());
+        System.out.println(dani.getID());
+        addStudentToTable(wyatt);
+        addStudentToTable(dani);*/
+        Review review = new Review("1", courseID("1100", "CS"), "good stuff!", 4);
+        addReviewtoTable(review);
+        //System.out.println(getScoreForCourse(courseID("1100", "CS")));
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
 
@@ -237,34 +244,14 @@ public class DataBaseCreation {
             statement.setString(2, catalog);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                    return rs.getString("ID");
+                System.out.println("Course found");
+                return rs.getString("ID");
             }
             return null;
 
         } catch(SQLException e){
             throw new RuntimeException(e);
         }
-    }
-    public static double getScoreForCourse(String courseID) {
-        verifyConnection();
-        ArrayList<Integer> reviews = new ArrayList<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT REVIEW_MESSAGE FROM REVIEWS WHERE COURSEID = ?"
-            );
-            statement.setString(1, courseID);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                reviews.add(Integer.parseInt(rs.getString("RATING")));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        double total = 0;
-        for (int score : reviews){
-            total+=score;
-        }
-        return total/reviews.size();
     }
 
     public static ArrayList<String> getReviewsForCourse(String courseID) {
@@ -301,7 +288,7 @@ public class DataBaseCreation {
         }
         return null;
     }
-    public static void printAverageReviewScoreForCourse(String courseID) {
+    public static String getAverageReviewScoreForCourse(String courseID) {
         verifyConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -311,9 +298,10 @@ public class DataBaseCreation {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 double averageScore = rs.getDouble("AVERAGE_SCORE");
-                System.out.printf("Course Average %.2f/5%n", averageScore);
+                if (averageScore == 0.0){return ("No reviews yet!");}
+                return(Double.toString(averageScore));
             } else {
-                System.out.println("No reviews found for this course.");
+                return ("No reviews yet!");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
