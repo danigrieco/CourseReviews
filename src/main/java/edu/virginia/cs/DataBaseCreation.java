@@ -184,10 +184,10 @@ public class DataBaseCreation {
                 System.out.println("A student with the same ID already exists in the database.");
                 return;
             }
-            PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO STUDENTS (ID, LOGIN, PASSWORD) VALUES (?, ?, ?)");
-            insertStmt.setInt(1, student.getID());
-            insertStmt.setString(2, student.getLogin());
-            insertStmt.setString(3, student.getPassword());
+            PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO STUDENTS (LOGIN, PASSWORD) VALUES (?, ?)");
+            //insertStmt.setInt(1, student.getID());
+            insertStmt.setString(1, student.getLogin());
+            insertStmt.setString(2, student.getPassword());
             insertStmt.executeUpdate();
             System.out.println("Student added to database.");
         } catch(SQLException e){
