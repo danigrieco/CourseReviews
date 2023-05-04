@@ -1,5 +1,6 @@
 package edu.virginia.cs.gui;
 
+import edu.virginia.cs.DataBaseCreation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,12 +13,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ExistingUserController {
     @FXML
     private Label username;
     @FXML
     private Label password;
+    @FXML
+    private Label error;
     @FXML
     private TextField user;
     @FXML
@@ -40,12 +44,40 @@ public class ExistingUserController {
 
 
     }
+    @FXML
     public void back(ActionEvent e) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 400, 600);
         stage.setScene(scene);
         stage.show();
+    }
+
+    @FXML
+    public void goMain(ActionEvent e) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("mainmenu-view.fxml"));
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Scene scene = new Scene(fxmlLoader.load(), 400, 600);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void logIn(ActionEvent e) throws IOException {
+        DataBaseCreation manager = new DataBaseCreation();
+        manager.initializeDatabase();
+        try{
+            if (DataBaseCreation.checkPasswordIsCorrect(user.getText(), pass.getText())) {
+                goMain(e);
+            }
+            else{
+                //flash error
+                error.setText("We couldn't log you in! Please try again or create a new account.");
+            }
+        }
+        catch (SQLException l){l.printStackTrace();}
+
+
     }
 
 }

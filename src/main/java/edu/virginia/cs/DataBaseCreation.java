@@ -11,8 +11,9 @@ public class DataBaseCreation {
         initializeDatabase();
         clearTables();
         createTables();
-        System.out.print(checkPasswordIsCorrect("PASSWORD",12346));
-
+        System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
+        Student wyatt = new Student("wyatt", "123");
+        addStudentToTable(wyatt);
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
 
@@ -109,11 +110,11 @@ public class DataBaseCreation {
         }
     }
 
-    public static boolean checkPasswordIsCorrect(String password, int ID) throws SQLException {
+    public static boolean checkPasswordIsCorrect(String username, String password) throws SQLException {
         verifyConnection();
         try {
-            PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE ID = ?");
-            checkStmt.setInt(1, ID);
+            PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
+            checkStmt.setString(1, username);
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next()) {
                 if (password.equals(rs.getString("PASSWORD"))) {
@@ -281,16 +282,16 @@ public class DataBaseCreation {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
+    public void disconnect() {
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 }

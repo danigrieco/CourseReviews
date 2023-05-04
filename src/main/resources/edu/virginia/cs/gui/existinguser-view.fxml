@@ -16,8 +16,16 @@
             <Insets bottom="20.0" />
          </VBox.margin></Label>
       <Label fx:id="Username" text="Username:" />
-      <TextField fx:id="user" onAction="#Cursor" text="user" />
+      <TextField fx:id="user" onAction="#logIn" />
       <Label fx:id="Password" text="Password: " />
-      <TextField fx:id="pass" onAction="#Cursor" text="pass" />
+      <TextField fx:id="pass" onAction="#logIn" />
+      <Label fx:id="error" textFill="#eb0808">
+         <opaqueInsets>
+            <Insets top="20.0" />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </Label>
    </children>
 </VBox>
