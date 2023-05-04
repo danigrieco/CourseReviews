@@ -11,7 +11,7 @@ public class Review {
         this.ID = ID;
         this.review_message = review_message;
         this.rating = rating;
-        this.StudentID = studentID;
+        //this.StudentID = studentID;
 
     }
     public int getID(){

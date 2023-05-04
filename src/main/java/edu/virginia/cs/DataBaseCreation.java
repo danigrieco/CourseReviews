@@ -8,14 +8,15 @@ public class DataBaseCreation {
     static Connection connection;
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
+        clearTables();
         //createTables();
         //System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
-        //Student wyatt = new Student("wyatt", "123");
+        Student wyatt = new Student("wyatt", "123");
         Student dani = new Student("dani", "123");
-        //addStudentToTable(wyatt);
+        addStudentToTable(wyatt);
         addStudentToTable(dani);
         //System.out.println(wyatt.getID());
-        System.out.println(dani.getID());
+        //System.out.println(dani.getID());
 
 
     }
@@ -26,10 +27,13 @@ public class DataBaseCreation {
             // Check if database file exists
             // Establish connection to database
             // Create tables if they don't exist
+            Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(databaseUrl);
             //createTables();
             //connection.close();
         }  catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
