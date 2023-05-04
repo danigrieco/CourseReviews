@@ -7,20 +7,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class DataBaseCreation {
-    String STUDENTS;
     static Connection connection;
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
         //connectDatabase();
         clearTables();
         createTables();
-        Course course = new Course("CS", 1100);
+        Course course = new Course("CS", "1100");
         addCourseToTable(course);
-        System.out.println(courseID("1100", "CS"));
-        //Review review = new Review("0",  "0", "loved it", 4);
-        //addReviewtoTable(review);
-        //System.out.println(studentID("wyatt", "123"));
-
+        System.out.println(courseID("CS", "1100"));
+        //Student wyatt = new Student("wyatt", "123");
+        //addStudentToTable(wyatt);
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
 
@@ -172,8 +169,9 @@ public class DataBaseCreation {
         verifyConnection();
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO COURSES (DEPARTMENT, CATALOG_NUMBER) VALUES (?, ?)");
+            //statement.setInt(1, course.getID());
             statement.setString(1, course.getDepartment());
-            statement.setInt(2, course.getCatalog());
+            statement.setString(2, course.getCatalog());
             statement.executeUpdate();
         } catch(SQLException e){
             throw new RuntimeException(e);
@@ -193,6 +191,7 @@ public class DataBaseCreation {
             insertStmt.setString(1, student.getLogin());
             insertStmt.setString(2, student.getPassword());
             insertStmt.executeUpdate();
+            System.out.println("Student added to database.");
         } catch(SQLException e){
             throw new RuntimeException(e);
         }
@@ -238,7 +237,7 @@ public class DataBaseCreation {
             statement.setString(2, catalog);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                return rs.getString("ID");
+                    return rs.getString("ID");
             }
             return null;
 
@@ -246,7 +245,6 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
     }
-
     public static double getScoreForCourse(String courseID) {
         verifyConnection();
         ArrayList<Integer> reviews = new ArrayList<>();
@@ -285,6 +283,23 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
         return reviews;
+    }
+    public static String printReviewsForCourse(String courseID) {
+        verifyConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT REVIEW_MESSAGE FROM REVIEWS WHERE COURSEID = ?"
+            );
+            statement.setString(1, courseID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                return rs.getString("REVIEW_MESSAGE");
+                //System.out.println(rs.getString("REVIEW_MESSAGE"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
     public static void printAverageReviewScoreForCourse(String courseID) {
         verifyConnection();
