@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class MainMenuController {
 
@@ -19,6 +20,7 @@ public class MainMenuController {
     @FXML
     private Button logout;
 
+    @FXML
     public void back(ActionEvent e) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -26,7 +28,7 @@ public class MainMenuController {
         stage.setScene(scene);
         stage.show();
     }
-
+    @FXML
     public void SwitchtoSubmit(ActionEvent e) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("submitreview-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -34,13 +36,13 @@ public class MainMenuController {
         stage.setScene(scene);
         stage.show();
     }
-
+    @FXML
     public void SwitchtoSee(ActionEvent e) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("seereview-view.fxml"));
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Scene scene = new Scene(fxmlLoader.load(), 400, 600);
-        stage.setScene(scene);
-        stage.show();
+            FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("seereview-view.fxml"));
+            Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+            Scene scene = new Scene(fxmlLoader.load(), 400, 600);
+            stage.setScene(scene);
+            stage.show();
     }
 
 }

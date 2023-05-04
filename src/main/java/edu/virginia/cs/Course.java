@@ -4,8 +4,7 @@ public class Course {
     private int ID;
     private String Department;
     private int Catalog;
-    public Course(int ID, String Department, int catalog){
-        this.ID = ID;
+    public Course(String Department, int catalog){
         this.Department = Department;
         this.Catalog = catalog;
 

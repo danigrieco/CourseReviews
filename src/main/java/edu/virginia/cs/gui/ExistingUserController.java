@@ -17,19 +17,11 @@ import java.sql.SQLException;
 
 public class ExistingUserController {
     @FXML
-    private Label username;
-    @FXML
-    private Label password;
-    @FXML
     private Label error;
     @FXML
     private TextField user;
     @FXML
     private TextField pass;
-    @FXML
-    private Button exisiting;
-    @FXML
-    private Button newuser;
 
     @FXML
     private Button back;
@@ -47,7 +39,7 @@ public class ExistingUserController {
     @FXML
     public void back(ActionEvent e) throws IOException {
         //FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("mainmenu-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 400, 600);
         stage.setScene(scene);

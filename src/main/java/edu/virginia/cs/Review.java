@@ -6,9 +6,8 @@ public class Review {
     private String CourseID;
     private String review_message;
     private int rating;
-    public Review(int ID, String studentID, String courseID, String review_message, int rating){
+    public Review(String studentID, String courseID, String review_message, int rating){
         this.CourseID = courseID;
-        this.ID = ID;
         this.review_message = review_message;
         this.rating = rating;
         this.StudentID = studentID;
