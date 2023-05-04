@@ -1,5 +1,7 @@
 package edu.virginia.cs.gui;
 
+import edu.virginia.cs.DataBaseCreation;
+import edu.virginia.cs.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,11 @@ public class MainMenuController {
     private Button see;
     @FXML
     private Button logout;
-
+    DataBaseCreation dbc = new DataBaseCreation();
+    private Student student;
+    public void setStudent(Student student){
+        this.student = student;
+    }
     public void back(ActionEvent e) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();

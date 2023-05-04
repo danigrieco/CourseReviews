@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 public class DataBaseCreation {
-    String STUDENTS;
     static Connection connection;
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
@@ -168,7 +167,7 @@ public class DataBaseCreation {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO COURSES (ID, DEPARTMENT, CATALOG_NUMBER) VALUES (?, ?, ?)");
             statement.setInt(1, course.getID());
             statement.setString(2, course.getDepartment());
-            statement.setInt(3, course.getCatalog());
+            statement.setString(3, course.getCatalog());
             statement.executeUpdate();
         } catch(SQLException e){
             throw new RuntimeException(e);
