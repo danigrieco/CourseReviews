@@ -46,7 +46,8 @@ public class ExistingUserController {
     }
     @FXML
     public void back(ActionEvent e) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
+        //FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("mainmenu-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
         Scene scene = new Scene(fxmlLoader.load(), 400, 600);
         stage.setScene(scene);

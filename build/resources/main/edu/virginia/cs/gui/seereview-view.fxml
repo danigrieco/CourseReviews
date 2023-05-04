@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.cs.gui.SeeReviewController" />
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.virginia.cs.gui.SeeReviewController">
+   <children>
+      <Label fx:id="enter" text="Enter course name:" />
+      <TextField fx:id="coursename" onAction="#enterCourse" />
+      <Label fx:id="reviewname" text="Course review:" />
+      <TextArea fx:id="actualreview" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="back" mnemonicParsing="false" onAction="#back" text="Back" />
+      <TextField fx:id="avg" />
+      <Label fx:id="average" text="Average numeric score:" />
+   </children>
+</VBox>
