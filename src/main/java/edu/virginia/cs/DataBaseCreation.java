@@ -4,20 +4,22 @@ import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 public class DataBaseCreation {
     static Connection connection;
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
+        //connectDatabase();
         clearTables();
-        //createTables();
-        //System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
-        Student wyatt = new Student("wyatt", "123");
-        Student dani = new Student("dani", "123");
-        addStudentToTable(wyatt);
-        addStudentToTable(dani);
-        //System.out.println(wyatt.getID());
-        //System.out.println(dani.getID());
-
+        createTables();
+        Course course = new Course("CS", "1100");
+        addCourseToTable(course);
+        System.out.println(courseID("CS", "1100"));
+        //Student wyatt = new Student("wyatt", "123");
+        //addStudentToTable(wyatt);
+        //printReviewsForCourse("3140");
+        //printAverageReviewScoreForCourse("3140");
 
     }
     public static void initializeDatabase() {
@@ -27,30 +29,14 @@ public class DataBaseCreation {
             // Check if database file exists
             // Establish connection to database
             // Create tables if they don't exist
-            Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(databaseUrl);
             //createTables();
             //connection.close();
         }  catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
 
     }
-    public static void dropAllTables() throws SQLException {
-        verifyConnection();
-        Statement statement = connection.createStatement();
-
-        String tableName = "STUDENTS";
-        statement.executeUpdate("DROP TABLE " + tableName);
-        String tableName2 = "COURSES";
-        statement.executeUpdate("DROP TABLE " + tableName);
-        String tableName3 = "REVIEWS";
-        statement.executeUpdate("DROP TABLE " + tableName);
-
-    }
-
 
     public static void verifyConnection() {
         try {
@@ -182,24 +168,24 @@ public class DataBaseCreation {
     public static void addCourseToTable(Course course){
         verifyConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO COURSES (ID, DEPARTMENT, CATALOG_NUMBER) VALUES (?, ?, ?)");
-            statement.setInt(1, course.getID());
-            statement.setString(2, course.getDepartment());
-            statement.setString(3, course.getCatalog());
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO COURSES (DEPARTMENT, CATALOG_NUMBER) VALUES (?, ?)");
+            //statement.setInt(1, course.getID());
+            statement.setString(1, course.getDepartment());
+            statement.setString(2, course.getCatalog());
             statement.executeUpdate();
         } catch(SQLException e){
             throw new RuntimeException(e);
         }
     }
-    public static void addStudentToTable(Student student) throws IllegalArgumentException, SQLException {
+    public static void addStudentToTable(Student student) throws IllegalArgumentException{
         verifyConnection();
         try {
-            /*PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
+            PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
             checkStmt.setString(1, student.getLogin());
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next()) {
                 throw new IllegalArgumentException();
-            }*/
+            }
             PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO STUDENTS (LOGIN, PASSWORD) VALUES (?, ?)");
             //insertStmt.setInt(1, student.getID());
             insertStmt.setString(1, student.getLogin());
@@ -209,7 +195,6 @@ public class DataBaseCreation {
         } catch(SQLException e){
             throw new RuntimeException(e);
         }
-
     }
     public static boolean alreadyReviewed(int courseID, int studentID){
         verifyConnection();
@@ -259,6 +244,45 @@ public class DataBaseCreation {
         } catch(SQLException e){
             throw new RuntimeException(e);
         }
+    }
+    public static double getScoreForCourse(String courseID) {
+        verifyConnection();
+        ArrayList<Integer> reviews = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT REVIEW_MESSAGE FROM REVIEWS WHERE COURSEID = ?"
+            );
+            statement.setString(1, courseID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                reviews.add(Integer.parseInt(rs.getString("RATING")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        double total = 0;
+        for (int score : reviews){
+            total+=score;
+        }
+        return total/reviews.size();
+    }
+
+    public static ArrayList<String> getReviewsForCourse(String courseID) {
+        verifyConnection();
+        ArrayList<String> reviews = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT REVIEW_MESSAGE FROM REVIEWS WHERE COURSEID = ?"
+            );
+            statement.setString(1, courseID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                reviews.add(rs.getString("REVIEW_MESSAGE"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reviews;
     }
     public static String printReviewsForCourse(String courseID) {
         verifyConnection();

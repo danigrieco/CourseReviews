@@ -42,7 +42,7 @@ public class SeeReviewController {
         System.out.println("Dept: "+args[0]);
         System.out.println("Cat Num: "+args[1]);
 
-        //score.setText(Double.toString(DataBaseCreation.getScoreForCourse(id)));
+        score.setText(Double.toString(DataBaseCreation.getScoreForCourse(id)));
 
 //        try {
 //            if(DataBaseCreation.courseInDatabase(Integer.parseInt(coursename.getText(3, 6)), coursename.getText(0,1))) {
