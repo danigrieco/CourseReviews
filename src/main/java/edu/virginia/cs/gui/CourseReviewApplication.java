@@ -1,5 +1,6 @@
 package edu.virginia.cs.gui;
 
+import edu.virginia.cs.DataBaseCreation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,9 @@ public class CourseReviewApplication extends Application {
     }
 
     public static void main(String[] args) {
+        DataBaseCreation init = new DataBaseCreation();
+        init.initializeDatabase();
+        init.disconnect();
         launch();
     }
 }

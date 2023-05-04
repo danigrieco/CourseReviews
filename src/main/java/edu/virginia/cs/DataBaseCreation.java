@@ -7,16 +7,15 @@ import java.sql.Statement;
 public class DataBaseCreation {
     String STUDENTS;
     static Connection connection;
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException {
         initializeDatabase();
-        Review r = new Review(12121,"tgh8wp","3140","sucks balls",1);
-        Review r2 = new Review(12121,"yassqueen","3140","sucks less balls",4);
-
-        addReviewtoTable(r);
-        addReviewtoTable(r2);
-
-        printReviewsForCourse("3140");
-        printAverageReviewScoreForCourse("3140");
+        clearTables();
+        createTables();
+        System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
+        Student wyatt = new Student("wyatt", "123");
+        addStudentToTable(wyatt);
+        //printReviewsForCourse("3140");
+        //printAverageReviewScoreForCourse("3140");
 
     }
     public static void initializeDatabase() {
@@ -44,6 +43,18 @@ public class DataBaseCreation {
             throw new RuntimeException();
         }
     }
+    public static void clearTables() {
+        verifyConnection();
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("DELETE FROM REVIEWS");
+            statement.executeUpdate("DELETE FROM STUDENTS");
+            statement.executeUpdate("DELETE FROM COURSES");
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void connectDatabase(){
         try {
             if(connection.isClosed()||connection==null) {
@@ -63,41 +74,48 @@ public class DataBaseCreation {
         }
     }
     public static void createTables() {
-        try {
-            //verifyConnection();
-            Statement stmt = connection.createStatement();
-            String reviewsQuery = "CREATE TABLE IF NOT EXISTS REVIEWS " +
-                    "(\n" +
-                    "                         ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                    "                         STUDENTID INT NOT NULL,\n" +
-                    "                         COURSEID VARCHAR(255) not null,\n" +
-                    "                         REVIEW_MESSAGE VARCHAR(300) NOT NULL,\n" +
-                    "                         RATING INT(1) NOT NULL check(1<=RATING<=5),\n" +
-                    "                         ,\n" +
-                    "                         FOREIGN KEY (STUDENTID) REFERENCES STUDENTS(ID) on delete cascade,\n" +
-                    "                         FOREIGN KEY (COURSEID) REFERENCES COURSES(ID) on delete cascade\n" +
-                    ")";
-            String studentsQuery = "CREATE TABLE IF NOT EXISTS STUDENTS " +
-                    "(ID INTEGER PRIMARY KEY AUTOINCREMENT,LOGIN VARCHAR(255) not null unique,PASSWORD VARCHAR(255) not null)";
-            String coursesQuery = "CREATE TABLE IF NOT EXISTS  COURSES " +
-                    "(ID INTEGER PRIMARY KEY AUTOINCREMENT,DEPARTMENT VARCHAR(255) not null,CATALOG_NUMBER INT(4) not null)";
-            stmt.execute(studentsQuery);
-            stmt.execute(coursesQuery);
-            stmt.execute(reviewsQuery);
-            // Close resources
-            stmt.close();
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-    }
-    public boolean checkPasswordIsCorrect(String password, String userName) throws SQLException {
-        if (connection.isClosed()) {
-            throw new IllegalStateException("Connection is closed right.");
-        }
+        verifyConnection();
         try {
             Statement statement = connection.createStatement();
-            String sql = "select * from STUDENTS where ID = userName";
-            ResultSet rs = statement.executeQuery(sql);
+
+            String studentsTable = "CREATE TABLE IF NOT EXISTS STUDENTS (" +
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "LOGIN VARCHAR(255) NOT NULL UNIQUE," +
+                    "PASSWORD VARCHAR(255) NOT NULL" +
+                    ");";
+
+            String coursesTable = "CREATE TABLE IF NOT EXISTS COURSES (" +
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "DEPARTMENT VARCHAR(255) NOT NULL," +
+                    "CATALOG_NUMBER INT(4) NOT NULL" +
+                    ");";
+
+            String reviewsTable = "CREATE TABLE IF NOT EXISTS REVIEWS (" +
+                    "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "STUDENTID INT NOT NULL," +
+                    "COURSEID INT NOT NULL," +
+                    "REVIEW_MESSAGE VARCHAR(300) NOT NULL," +
+                    "RATING INT(1) NOT NULL CHECK(RATING >= 1 AND RATING <= 5)," +
+                    "FOREIGN KEY (STUDENTID) REFERENCES STUDENTS(ID) ON DELETE CASCADE," +
+                    "FOREIGN KEY (COURSEID) REFERENCES COURSES(ID) ON DELETE CASCADE" +
+                    ");";
+
+            statement.executeUpdate(studentsTable);
+            statement.executeUpdate(coursesTable);
+            statement.executeUpdate(reviewsTable);
+
+            statement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean checkPasswordIsCorrect(String username, String password) throws SQLException {
+        verifyConnection();
+        try {
+            PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
+            checkStmt.setString(1, username);
+            ResultSet rs = checkStmt.executeQuery();
             if (rs.next()) {
                 if (password.equals(rs.getString("PASSWORD"))) {
                     return true;
@@ -264,16 +282,16 @@ public class DataBaseCreation {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
+    public void disconnect() {
+        if (connection != null) {
+            try {
+                connection.close();
+                connection = null;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 }

@@ -35,6 +35,7 @@ public class NewUserController {
         }
     }
 
+    @FXML
     public void back(ActionEvent e) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
