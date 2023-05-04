@@ -8,12 +8,12 @@ public class DataBaseCreation {
     String STUDENTS;
     static Connection connection;
     public static void main(String[] args) throws SQLException {
-        initializeDatabase();
-        clearTables();
-        createTables();
-        System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
-        Student dani = new Student("dani", "password");
-        addStudentToTable(dani);
+//        initializeDatabase();
+//        clearTables();
+//        createTables();
+//        System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
+//        Student dani = new Student("dani", "password");
+//        addStudentToTable(dani);
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
 

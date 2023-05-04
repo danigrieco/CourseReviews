@@ -1,5 +1,7 @@
 package edu.virginia.cs.gui;
 
+import edu.virginia.cs.DataBaseCreation;
+import edu.virginia.cs.Student;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,11 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class NewUserController {
     @FXML
@@ -21,18 +25,14 @@ public class NewUserController {
     @FXML
     private TextField user;
     @FXML
-    private TextField pass;
-
+    private PasswordField newPass;
+    @FXML
+    private PasswordField confirmPass;
     @FXML
     private Button back;
 
     public void Cursor(KeyEvent event) {
-        if (!event.getText().isBlank()) {
-            user.setStyle("-fx-text-inner-color: #000000; -fx-background-color: #FFFFFF;");
-            user.setEditable(true);
-            pass.setStyle("-fx-text-inner-color: #000000; -fx-background-color: #FFFFFF;");
-            pass.setEditable(true);
-        }
+
     }
 
     @FXML
@@ -43,6 +43,25 @@ public class NewUserController {
         stage.setScene(scene);
         stage.show();
     }
+
+    @FXML
+    public void logIn(ActionEvent e) throws IOException {
+        DataBaseCreation manager = new DataBaseCreation();
+        manager.initializeDatabase();
+        if (newPass.getText().equals(confirmPass.getText())) {
+            Student newStudent = new Student(user.getText(), newPass.getText());
+            DataBaseCreation.addStudentToTable(newStudent);
+            ExistingUserController.goMain(e);
+        }
+        else{
+            //go to login
+            back(e);
+
+        }
+        manager.disconnect();
+    }
+
+
 
 
 }

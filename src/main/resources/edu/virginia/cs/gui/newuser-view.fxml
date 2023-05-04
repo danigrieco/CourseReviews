@@ -16,8 +16,10 @@
             <Insets bottom="20.0" />
          </VBox.margin></Label>
       <Label fx:id="username" text="Create username:" />
-      <TextField fx:id="user" onAction="#Cursor" text="user" />
+      <TextField fx:id="user" onAction="#logIn" />
        <Label fx:id="password" text="Create password:" />
-       <TextField fx:id="pass" onAction="#Cursor" text="pass" />
+      <PasswordField fx:id="newPass" onAction="#logIn" />
+      <Label text="Confirm password:" />
+      <PasswordField fx:id="confirmPass" onAction="#logIn" />
    </children>
 </VBox>
