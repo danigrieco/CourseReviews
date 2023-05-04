@@ -17,7 +17,7 @@
       </Label>
       <VBox prefHeight="352.0" prefWidth="400.0">
          <children>
-            <Button mnemonicParsing="false" text="Submit Review">
+            <Button fx:id="submit" mnemonicParsing="false" onAction="#SwitchtoSubmit" text="Submit Review">
                <VBox.margin>
                   <Insets bottom="25.0" left="119.0" />
                </VBox.margin>
@@ -25,7 +25,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" text="See Reviews">
+            <Button fx:id="see" mnemonicParsing="false" onAction="#SwitchtoSee" text="See Reviews">
                <font>
                   <Font size="20.0" />
                </font>
@@ -33,7 +33,7 @@
                   <Insets bottom="25.0" left="130.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Log Out">
+            <Button fx:id="logout" mnemonicParsing="false" onAction="#back" text="Log Out">
                <font>
                   <Font size="20.0" />
                </font>

@@ -9,11 +9,12 @@ public class DataBaseCreation {
     static Connection connection;
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
+        //connectDatabase();
         clearTables();
         createTables();
         System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
-        Student wyatt = new Student("wyatt", "123");
-        addStudentToTable(wyatt);
+        //Student wyatt = new Student("wyatt", "123");
+        //addStudentToTable(wyatt);
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
 
@@ -55,24 +56,18 @@ public class DataBaseCreation {
         }
     }
 
-    public static void connectDatabase(){
-        try {
-            if(connection.isClosed()||connection==null) {
-                throw new IllegalStateException("Manager is already connected!");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-        String databaseName = "src/Reviews.sqlite3";
-        String url = "jdbc:sqlite:" + databaseName;
-        try{
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(url);
-        }
-        catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static void connectDatabase(){
+//
+//        String databaseName = "src/Reviews.sqlite3";
+//        String url = "jdbc:sqlite:" + databaseName;
+//        try{
+//            Class.forName("org.sqlite.JDBC");
+//            connection = DriverManager.getConnection(url);
+//        }
+//        catch (ClassNotFoundException | SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
     public static void createTables() {
         verifyConnection();
         try {
