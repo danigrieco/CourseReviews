@@ -73,11 +73,11 @@ public class ExistingUserController {
             else{
                 //flash error
                 error.setText("We couldn't log you in! Please try again or create a new account.");
+
             }
         }
         catch (SQLException l){l.printStackTrace();}
-
-
+        manager.disconnect();
     }
 
 }

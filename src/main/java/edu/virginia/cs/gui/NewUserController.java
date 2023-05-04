@@ -43,4 +43,6 @@ public class NewUserController {
         stage.setScene(scene);
         stage.show();
     }
+
+
 }
