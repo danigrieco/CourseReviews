@@ -5,25 +5,31 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 public class DataBaseCreation {
     static Connection connection;
+    private static final DecimalFormat df = new DecimalFormat("0.00");
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
         //connectDatabase();
         clearTables();
         createTables();
-        Course course = new Course("CS", "3100");
+        Course course = new Course("CS", "1100");
         addCourseToTable(course);
         System.out.println(courseID("1100", "CS"));
-        /*Student wyatt = new Student("wyatt", "123");
+        Student wyatt = new Student("wyatt", "123");
         Student dani = new Student("dani", "456");
         System.out.println(wyatt.getID());
         System.out.println(dani.getID());
         addStudentToTable(wyatt);
-        addStudentToTable(dani);*/
+        addStudentToTable(dani);
         Review review = new Review("1", courseID("1100", "CS"), "good stuff!", 4);
         addReviewtoTable(review);
+        Review review2 = new Review("9", courseID("1100", "CS"), "sucked balls", 1);
+        Review review3 = new Review("10", courseID("1100", "CS"), "mid", 3);
+        addReviewtoTable(review2);
+        addReviewtoTable(review3);
         //System.out.println(getScoreForCourse(courseID("1100", "CS")));
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
@@ -299,7 +305,7 @@ public class DataBaseCreation {
             if (rs.next()) {
                 double averageScore = rs.getDouble("AVERAGE_SCORE");
                 if (averageScore == 0.0){return ("No reviews yet!");}
-                return(Double.toString(averageScore) + "/5");
+                return(df.format(averageScore) + "/5");
             } else {
                 return ("No reviews yet!");
             }
