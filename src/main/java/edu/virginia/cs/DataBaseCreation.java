@@ -242,7 +242,7 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
     }
-    public static void printReviewsForCourse(String courseID) {
+    public static String printReviewsForCourse(String courseID) {
         verifyConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -251,11 +251,13 @@ public class DataBaseCreation {
             statement.setString(1, courseID);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                System.out.println(rs.getString("REVIEW_MESSAGE"));
+                return rs.getString("REVIEW_MESSAGE");
+                //System.out.println(rs.getString("REVIEW_MESSAGE"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
     public static void printAverageReviewScoreForCourse(String courseID) {
         verifyConnection();
