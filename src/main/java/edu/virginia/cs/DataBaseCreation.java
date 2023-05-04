@@ -8,12 +8,13 @@ public class DataBaseCreation {
     String STUDENTS;
     static Connection connection;
     public static void main(String[] args) throws SQLException {
-//        initializeDatabase();
-//        clearTables();
-//        createTables();
-//        System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
-//        Student dani = new Student("dani", "password");
-//        addStudentToTable(dani);
+        initializeDatabase();
+        //connectDatabase();
+        clearTables();
+        createTables();
+        System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
+        //Student wyatt = new Student("wyatt", "123");
+        //addStudentToTable(wyatt);
         //printReviewsForCourse("3140");
         //printAverageReviewScoreForCourse("3140");
 
@@ -55,24 +56,18 @@ public class DataBaseCreation {
         }
     }
 
-    public static void connectDatabase(){
-        try {
-            if(connection.isClosed()||connection==null) {
-                throw new IllegalStateException("Manager is already connected!");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException();
-        }
-        String databaseName = "src/Reviews.sqlite3";
-        String url = "jdbc:sqlite:" + databaseName;
-        try{
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(url);
-        }
-        catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static void connectDatabase(){
+//
+//        String databaseName = "src/Reviews.sqlite3";
+//        String url = "jdbc:sqlite:" + databaseName;
+//        try{
+//            Class.forName("org.sqlite.JDBC");
+//            connection = DriverManager.getConnection(url);
+//        }
+//        catch (ClassNotFoundException | SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
     public static void createTables() {
         verifyConnection();
         try {
@@ -189,10 +184,10 @@ public class DataBaseCreation {
                 System.out.println("A student with the same ID already exists in the database.");
                 return;
             }
-            PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO STUDENTS (ID, LOGIN, PASSWORD) VALUES (?, ?, ?)");
-            insertStmt.setInt(1, student.getID());
-            insertStmt.setString(2, student.getLogin());
-            insertStmt.setString(3, student.getPassword());
+            PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO STUDENTS (LOGIN, PASSWORD) VALUES (?, ?)");
+            //insertStmt.setInt(1, student.getID());
+            insertStmt.setString(1, student.getLogin());
+            insertStmt.setString(2, student.getPassword());
             insertStmt.executeUpdate();
             System.out.println("Student added to database.");
         } catch(SQLException e){
