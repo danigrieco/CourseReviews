@@ -4,8 +4,7 @@ public class Student {
     private int ID;
     private String Login;
     private String Password;
-    public Student(int ID, String login, String password){
-        this.ID = ID;
+    public Student(String login, String password){
         this.Login = login;
         this.Password = password;
     }
