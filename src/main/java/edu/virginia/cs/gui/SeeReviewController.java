@@ -7,6 +7,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,6 +26,9 @@ public class SeeReviewController {
     private Label score;
 
     @FXML
+    private ScrollPane reviewPane;
+
+    @FXML
     public void back(ActionEvent e) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("mainmenu-view.fxml"));
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
@@ -36,13 +41,24 @@ public class SeeReviewController {
     public void courseSearch(ActionEvent e) throws IOException {
         DataBaseCreation manager = new DataBaseCreation();
         manager.initializeDatabase();
+        score.setTextFill(Color.BLACK);
         String[] args = coursename.getText().split(" ");
         String id = DataBaseCreation.courseID(args[1], args[0]);
-        System.out.println("id: "+id);
-        System.out.println("Dept: "+args[0]);
-        System.out.println("Cat Num: "+args[1]);
 
-        score.setText(Double.toString(DataBaseCreation.getScoreForCourse(id)));
+        if ((id) != null) {
+            score.setText(DataBaseCreation.getAverageReviewScoreForCourse(id));
+            VBox results = new VBox(5);
+
+            for (String reviewMessage : DataBaseCreation.getReviewsForCourse(id)){
+                results.getChildren().add(new Label(reviewMessage));
+            }
+            reviewPane.setContent(results);
+        }
+        else{
+            score.setTextFill(Color.RED);
+            score.setText("Invalid course.");
+        }
+
 
 //        try {
 //            if(DataBaseCreation.courseInDatabase(Integer.parseInt(coursename.getText(3, 6)), coursename.getText(0,1))) {
