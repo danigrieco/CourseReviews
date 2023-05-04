@@ -57,6 +57,8 @@ public class NewUserController {
                 error.setText("Username is taken. Please try again.");
                 manager.disconnect();
                 return;
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
             }
             ExistingUserController.goMain(e);
         }
