@@ -8,14 +8,15 @@ public class DataBaseCreation {
     static Connection connection;
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
-        //connectDatabase();
-        clearTables();
-        createTables();
-        System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
+        //createTables();
+        //System.out.print(checkPasswordIsCorrect("PASSWORD","12346"));
         //Student wyatt = new Student("wyatt", "123");
+        Student dani = new Student("dani", "123");
         //addStudentToTable(wyatt);
-        //printReviewsForCourse("3140");
-        //printAverageReviewScoreForCourse("3140");
+        addStudentToTable(dani);
+        //System.out.println(wyatt.getID());
+        System.out.println(dani.getID());
+
 
     }
     public static void initializeDatabase() {
@@ -33,6 +34,19 @@ public class DataBaseCreation {
         }
 
     }
+    public static void dropAllTables() throws SQLException {
+        verifyConnection();
+        Statement statement = connection.createStatement();
+
+        String tableName = "STUDENTS";
+        statement.executeUpdate("DROP TABLE " + tableName);
+        String tableName2 = "COURSES";
+        statement.executeUpdate("DROP TABLE " + tableName);
+        String tableName3 = "REVIEWS";
+        statement.executeUpdate("DROP TABLE " + tableName);
+
+    }
+
 
     public static void verifyConnection() {
         try {
@@ -173,15 +187,15 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
     }
-    public static void addStudentToTable(Student student) throws IllegalArgumentException{
+    public static void addStudentToTable(Student student) throws IllegalArgumentException, SQLException {
         verifyConnection();
         try {
-            PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
+            /*PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
             checkStmt.setString(1, student.getLogin());
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next()) {
                 throw new IllegalArgumentException();
-            }
+            }*/
             PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO STUDENTS (LOGIN, PASSWORD) VALUES (?, ?)");
             //insertStmt.setInt(1, student.getID());
             insertStmt.setString(1, student.getLogin());
@@ -191,6 +205,7 @@ public class DataBaseCreation {
         } catch(SQLException e){
             throw new RuntimeException(e);
         }
+
     }
     public static boolean alreadyReviewed(int courseID, int studentID){
         verifyConnection();

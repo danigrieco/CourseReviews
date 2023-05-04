@@ -5,6 +5,7 @@ public class Student {
     private String Login;
     private String Password;
     public Student(String login, String password){
+        this.ID = ID;
         this.Login = login;
         this.Password = password;
     }
