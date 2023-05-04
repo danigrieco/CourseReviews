@@ -174,15 +174,14 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
     }
-    public static void addStudentToTable(Student student){
+    public static void addStudentToTable(Student student) throws IllegalArgumentException{
         verifyConnection();
         try {
-            PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE ID = ?");
-            checkStmt.setInt(1, student.getID());
+            PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
+            checkStmt.setString(1, student.getLogin());
             ResultSet rs = checkStmt.executeQuery();
             if (rs.next()) {
-                System.out.println("A student with the same ID already exists in the database.");
-                return;
+                throw new IllegalArgumentException();
             }
             PreparedStatement insertStmt = connection.prepareStatement("INSERT INTO STUDENTS (LOGIN, PASSWORD) VALUES (?, ?)");
             //insertStmt.setInt(1, student.getID());

@@ -21,7 +21,7 @@ public class NewUserController {
     @FXML
     private Label username;
     @FXML
-    private Label password;
+    private Label error;
     @FXML
     private TextField user;
     @FXML
@@ -50,7 +50,14 @@ public class NewUserController {
         manager.initializeDatabase();
         if (newPass.getText().equals(confirmPass.getText())) {
             Student newStudent = new Student(user.getText(), newPass.getText());
-            DataBaseCreation.addStudentToTable(newStudent);
+            try {
+                DataBaseCreation.addStudentToTable(newStudent);
+            }
+            catch(IllegalArgumentException l){
+                error.setText("Username is taken. Please try again.");
+                manager.disconnect();
+                return;
+            }
             ExistingUserController.goMain(e);
         }
         else{
