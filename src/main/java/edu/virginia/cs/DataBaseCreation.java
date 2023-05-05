@@ -209,14 +209,14 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
     }
-    public static boolean alreadyReviewed(int courseID, int studentID){
+    public static boolean alreadyReviewed(String courseID, String studentID){
         verifyConnection();
         try {
             PreparedStatement checkStmt = connection.prepareStatement("SELECT * FROM REVIEWS WHERE STUDENTID = ?");
-            checkStmt.setInt(1, studentID);
+            checkStmt.setString(1, studentID);
             ResultSet rs = checkStmt.executeQuery();
             while (rs.next()) {
-                if(rs.getInt("courseID")==courseID){
+                if(rs.getString("courseID").equals(courseID)){
                     return true;
                 }
             }
