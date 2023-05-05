@@ -10,6 +10,15 @@ import java.io.IOException;
 
 
 public class CourseReviewApplication extends Application {
+    private int studentID;
+
+    public int getStudentID(){
+        return studentID;
+    }
+
+    public void setStudentID(int ID){
+        studentID = ID;
+    }
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(CourseReviewApplication.class.getResource("login-view.fxml"));

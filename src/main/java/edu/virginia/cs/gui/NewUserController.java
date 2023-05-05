@@ -58,6 +58,8 @@ public class NewUserController {
                 manager.disconnect();
                 return;
             }
+            Stage current = (Stage)((Node)e.getSource()).getScene().getWindow();
+            current.setUserData(DataBaseCreation.studentID(user.getText()));
             ExistingUserController.goMain(e);
         }
         else{
