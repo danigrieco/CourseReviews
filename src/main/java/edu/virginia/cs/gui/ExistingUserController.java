@@ -1,10 +1,12 @@
 package edu.virginia.cs.gui;
 
 import edu.virginia.cs.DataBaseCreation;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -61,6 +63,8 @@ public class ExistingUserController {
         manager.initializeDatabase();
         try{
             if (DataBaseCreation.checkPasswordIsCorrect(user.getText(), pass.getText())) {
+                Stage current = (Stage)((Node)e.getSource()).getScene().getWindow();
+                current.setUserData(DataBaseCreation.studentID(user.getText()));
                 goMain(e);
             }
             else{

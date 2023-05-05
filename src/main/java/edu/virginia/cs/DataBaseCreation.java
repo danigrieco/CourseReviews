@@ -1,5 +1,6 @@
 package edu.virginia.cs;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +10,7 @@ import java.text.DecimalFormat;
 
 public class DataBaseCreation {
     static Connection connection;
+
     private static final DecimalFormat df = new DecimalFormat("0.00");
     public static void main(String[] args) throws SQLException {
         initializeDatabase();
@@ -138,7 +140,7 @@ public class DataBaseCreation {
             throw new RuntimeException(e);
         }
     }
-    public static void addReviewtoTable(Review review){
+    public static void addReviewtoTable(Review review) throws IllegalArgumentException{
         verifyConnection();
         try {
             Statement statement = connection.createStatement();
@@ -154,10 +156,8 @@ public class DataBaseCreation {
             statement1.setString(5, review.getStudentID());
             statement1.setString(6, review.getCourseID());
             statement1.executeUpdate();
-
-
-        }catch(SQLException e){
-            throw new RuntimeException(e);
+        }catch(RuntimeException | SQLException e){
+            throw new IllegalArgumentException();
         }
 
 
@@ -251,6 +251,21 @@ public class DataBaseCreation {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 System.out.println("Course found");
+                return rs.getString("ID");
+            }
+            return null;
+
+        } catch(SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+    public static String studentID(String username){
+        verifyConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM STUDENTS WHERE LOGIN = ?");
+            statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
                 return rs.getString("ID");
             }
             return null;

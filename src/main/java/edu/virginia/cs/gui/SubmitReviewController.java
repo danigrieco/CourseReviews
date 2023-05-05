@@ -5,12 +5,14 @@ import edu.virginia.cs.DataBaseCreation;
 import edu.virginia.cs.Review;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -25,7 +27,17 @@ public class SubmitReviewController {
     private Label error;
     @FXML
     private Button submit;
-
+    @FXML
+    private Button back;
+    @FXML
+    public void back(ActionEvent e){
+        try{
+            ExistingUserController.goMain(e);
+        }
+        catch(IOException l){
+            l.printStackTrace();
+        }
+    }
     @FXML
     public void submission(ActionEvent e) throws IOException {
         DataBaseCreation manager = new DataBaseCreation();
@@ -40,10 +52,18 @@ public class SubmitReviewController {
                 DataBaseCreation.addCourseToTable(new Course(dept, num));
                 courseID = DataBaseCreation.courseID(num, dept);
             }
-            String studentID;
+            Stage current = (Stage)((Node)e.getSource()).getScene().getWindow();
+            String studentID = (String) current.getUserData();
             String reviewMessage = message.getText();
-            String reviewRating = rating.getText();
-            DataBaseCreation.addReviewtoTable(new Review(studentID, courseID, reviewMessage, reviewRating));
+            int reviewRating = Integer.parseInt(rating.getText());
+            try{
+                DataBaseCreation.addReviewtoTable(new Review(studentID, courseID, reviewMessage, reviewRating));
+                error.setTextFill(Color.BLACK);
+                error.setText("Review Submitted. Thanks!");
+            }
+            catch (IllegalArgumentException l){
+                error.setText("Invalid Review. Try Again.");
+            }
 
         }
         manager.disconnect();
@@ -53,7 +73,7 @@ public class SubmitReviewController {
         boolean result = true;
         if (dept.length() > 4 || num.length() > 4){result= false;}
         for (int i = 0; i < dept.length(); i++){
-            if (Character.isUpperCase(dept.charAt(i))){result = false;}
+            if (!Character.isUpperCase(dept.charAt(i))){result = false;}
         }
         return result;
     }
