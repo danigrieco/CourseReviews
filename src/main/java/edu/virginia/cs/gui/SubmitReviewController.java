@@ -57,6 +57,11 @@ public class SubmitReviewController {
             String reviewMessage = message.getText();
             int reviewRating = Integer.parseInt(rating.getText());
             try{
+                if (DataBaseCreation.alreadyReviewed(courseID, studentID)) {
+                    error.setText("Error: Only 1 review per class");
+                    manager.disconnect();
+                    return;
+                }
                 DataBaseCreation.addReviewtoTable(new Review(studentID, courseID, reviewMessage, reviewRating));
                 error.setTextFill(Color.BLACK);
                 error.setText("Review Submitted. Thanks!");
@@ -66,7 +71,7 @@ public class SubmitReviewController {
             }
 
         }
-        manager.disconnect();
+        manager.disconnect();manager.disconnect();
     }
 
     private boolean validCourse(String dept, String num){
