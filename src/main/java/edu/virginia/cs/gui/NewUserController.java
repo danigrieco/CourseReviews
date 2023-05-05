@@ -57,8 +57,6 @@ public class NewUserController {
                 error.setText("Username is taken. Please try again.");
                 manager.disconnect();
                 return;
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
             }
             Stage current = (Stage)((Node)e.getSource()).getScene().getWindow();
             current.setUserData(DataBaseCreation.studentID(user.getText()));
