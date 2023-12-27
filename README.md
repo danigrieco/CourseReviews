@@ -1,4 +1,4 @@
-# HW7-CourseReview
+# CourseReview
 
 ## Authors
 * Dani Grieco - tgh8wp
